@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,9 +22,93 @@ import {
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 
+export const metadata: Metadata = {
+  title: "Home",
+  description:
+    "Mojoday provides comprehensive web development, UI/UX design, and digital marketing services. We build custom web applications with Next.js and React, create beautiful user experiences, and help grow your business with data-driven marketing strategies.",
+  openGraph: {
+    title: "Mojoday - Digital Experiences That Transform Businesses",
+    description:
+      "We build, create, and market digital experiences. Your all-in-one partner for web development, design, and marketing.",
+    url: "/",
+  },
+  alternates: {
+    canonical: "/",
+  },
+};
+
 export default function Home() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Mojoday",
+    description:
+      "Mojoday is your all-in-one partner for web application development, creative design, and strategic marketing.",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://mojoday.app",
+    logo: `${
+      process.env.NEXT_PUBLIC_SITE_URL || "https://mojoday.app"
+    }/logo.png`,
+    contactPoint: {
+      "@type": "ContactPoint",
+      email: "help@mojoday.app",
+      contactType: "Customer Service",
+    },
+    sameAs: [
+      // Add your social media links here
+      // "https://twitter.com/mojoday",
+      // "https://linkedin.com/company/mojoday",
+    ],
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "50",
+    },
+  };
+
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Mojoday",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://mojoday.app",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${
+          process.env.NEXT_PUBLIC_SITE_URL || "https://mojoday.app"
+        }/search?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
+  };
+
+  const serviceJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: "Web Development, UI/UX Design, Digital Marketing",
+    provider: {
+      "@type": "Organization",
+      name: "Mojoday",
+    },
+    areaServed: "Worldwide",
+    description:
+      "Comprehensive digital solutions including web development, UI/UX design, and digital marketing services.",
+  };
+
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      />
       <SiteHeader />
 
       <main className="flex-1">

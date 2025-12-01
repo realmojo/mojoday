@@ -1,5 +1,25 @@
+import type { Metadata } from "next";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description:
+    "Mojoday's Privacy Policy. Learn how we collect, use, and protect your personal data when you visit our website.",
+  openGraph: {
+    title: "Privacy Policy | Mojoday",
+    description:
+      "Learn how Mojoday collects, uses, and protects your personal data.",
+    url: "/privacy",
+  },
+  alternates: {
+    canonical: "/privacy",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 export default function PrivacyPage() {
   return (
