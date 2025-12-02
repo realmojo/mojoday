@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,7 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://mojoday.app"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://mojoday.app"
+  ),
   title: {
     default: "Mojoday - Digital Experiences That Transform Businesses",
     template: "%s | Mojoday",
@@ -77,8 +80,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    // Add your verification codes here when available
-    // google: "your-google-verification-code",
+    google: "FNqLbmaC6cPqT60GMc69YeWoyb_qKJucpAtdDYQM-_w",
     // yandex: "your-yandex-verification-code",
     // bing: "your-bing-verification-code",
   },
@@ -91,9 +93,31 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <head>
+        <meta
+          name="naver-site-verification"
+          content="b0d055f904024ccff65bdfea8bd247cfc47f477e"
+        />
+        <meta
+          name="google-site-verification"
+          content="FNqLbmaC6cPqT60GMc69YeWoyb_qKJucpAtdDYQM-_w"
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-Z3NNQBGBSD"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-Z3NNQBGBSD');
+          `}
+        </Script>
         {children}
       </body>
     </html>
