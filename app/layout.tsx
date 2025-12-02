@@ -106,18 +106,22 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Script
+        <script
           src="https://www.googletagmanager.com/gtag/js?id=G-Z3NNQBGBSD"
-          strategy="afterInteractive"
+          async
         />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-Z3NNQBGBSD');
-          `}
-        </Script>
+        <script
+          id="google-analytics"
+          async
+          dangerouslySetInnerHTML={{
+            __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-Z3NNQBGBSD');
+        `,
+          }}
+        />
         {children}
       </body>
     </html>
