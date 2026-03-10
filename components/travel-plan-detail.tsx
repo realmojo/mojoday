@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -15,6 +16,8 @@ import {
   Backpack,
   Info,
   Play,
+  ChevronDown,
+  Loader2,
 } from "lucide-react";
 
 export type Activity = {
@@ -57,6 +60,16 @@ export type TravelPlanData = {
 
 export function TravelPlanDetail({ plan }: { plan: TravelPlanData }) {
   const { video_info, travel_schedule, travel_tips } = plan;
+  const [openMaps, setOpenMaps] = useState<Set<string>>(new Set());
+  const [loadedMaps, setLoadedMaps] = useState<Set<string>>(new Set());
+
+  function toggleMap(key: string) {
+    setOpenMaps((prev) => {
+      const next = new Set(prev);
+      next.has(key) ? next.delete(key) : next.add(key);
+      return next;
+    });
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -211,18 +224,50 @@ export function TravelPlanDetail({ plan }: { plan: TravelPlanData }) {
                               </div>
                             )}
 
-                            {/* Map link if coordinates exist */}
-                            {activity.coordinates && (
-                              <a
-                                href={`https://www.google.com/maps?q=${activity.coordinates.latitude},${activity.coordinates.longitude}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline"
-                              >
-                                <MapPin className="h-3.5 w-3.5" />
-                                지도에서 보기
-                              </a>
-                            )}
+                            {/* Map collapse */}
+                            {activity.coordinates && (() => {
+                              const mapKey = `${day.day}-${idx}`;
+                              const isOpen = openMaps.has(mapKey);
+                              const { latitude, longitude } = activity.coordinates;
+                              return (
+                                <div>
+                                  <button
+                                    onClick={() => toggleMap(mapKey)}
+                                    className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline"
+                                  >
+                                    <MapPin className="h-3.5 w-3.5" />
+                                    지도에서 보기
+                                    <ChevronDown
+                                      className={`h-3.5 w-3.5 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                                    />
+                                  </button>
+                                  {isOpen && (
+                                    <div className="mt-2 rounded-xl overflow-hidden border relative">
+                                      {!loadedMaps.has(mapKey) && (
+                                        <div className="absolute inset-0 flex items-center justify-center bg-muted/60 z-10" style={{ height: 220 }}>
+                                          <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                                        </div>
+                                      )}
+                                      <iframe
+                                        title={activity.location}
+                                        src={`https://maps.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`}
+                                        width="100%"
+                                        height="220"
+                                        loading="lazy"
+                                        className="block"
+                                        onLoad={() =>
+                                          setLoadedMaps((prev) => {
+                                            const next = new Set(prev);
+                                            next.add(mapKey);
+                                            return next;
+                                          })
+                                        }
+                                      />
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            })()}
                           </CardContent>
                         </Card>
                       </div>
