@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm show next version)",
+      "Bash(npm show react version)",
+      "Bash(npm show react-dom version)",
+      "Bash(npm install next@16.1.6 react@19.2.4 react-dom@19.2.4)",
+      "Bash(npm install -D eslint-config-next@16.1.6)",
+      "Bash(node -e \"const lr = require\\(''/Users/gshs/Desktop/m/mojoday/node_modules/lucide-react''\\); const keys = Object.keys\\(lr\\).filter\\(k => k.toLowerCase\\(\\).includes\\(''youtube''\\)\\); console.log\\(keys\\)\")",
+      "Bash(npm install @google/genai)",
+      "mcp__supabase__list_projects",
+      "mcp__supabase__list_tables",
+      "mcp__supabase__list_migrations",
+      "mcp__supabase__apply_migration",
+      "mcp__supabase__get_project_url",
+      "mcp__supabase__get_publishable_keys",
+      "Bash(npm install @supabase/supabase-js)",
+      "mcp__supabase__get_advisors",
+      "mcp__supabase__execute_sql"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "supabase"
+  ]
+}

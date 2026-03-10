@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Rocket } from "lucide-react";
+import { MapPin } from "lucide-react";
 
 export function SiteFooter() {
   return (
@@ -8,49 +8,54 @@ export function SiteFooter() {
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div className="space-y-4">
             <div className="flex items-center gap-2 font-bold text-xl">
-              <Rocket className="h-6 w-6 text-primary" />
+              <MapPin className="h-6 w-6 text-primary" />
               <span>Mojoday</span>
             </div>
             <p className="text-sm text-muted-foreground">
-              Building the future of the web, one pixel at a time.
+              유튜브 영상으로 완성하는 나만의 여행 계획
             </p>
           </div>
           <div>
-            <h4 className="font-semibold mb-4">Services</h4>
+            <h4 className="font-semibold mb-4">여행지</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
-                <Link href="/#services" className="hover:text-primary">
-                  Web Development
+                <Link href="/#destinations" className="hover:text-primary">
+                  인기 여행지
                 </Link>
               </li>
               <li>
-                <Link href="/#services" className="hover:text-primary">
-                  UI/UX Design
+                <Link href="/#destinations" className="hover:text-primary">
+                  일본 여행
                 </Link>
               </li>
               <li>
-                <Link href="/#services" className="hover:text-primary">
-                  Marketing
+                <Link href="/#destinations" className="hover:text-primary">
+                  유럽 여행
                 </Link>
               </li>
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold mb-4">Company</h4>
+            <h4 className="font-semibold mb-4">서비스</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
-                <Link href="/#about" className="hover:text-primary">
-                  About Us
+                <Link href="/#how-it-works" className="hover:text-primary">
+                  사용 방법
                 </Link>
               </li>
               <li>
-                <Link href="/#contact" className="hover:text-primary">
-                  Contact
+                <Link href="/#features" className="hover:text-primary">
+                  기능 소개
                 </Link>
               </li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-4">정보</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link href="/privacy" className="hover:text-primary">
-                  Privacy Policy
+                  개인정보처리방침
                 </Link>
               </li>
             </ul>

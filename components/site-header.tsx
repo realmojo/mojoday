@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Rocket, Menu } from "lucide-react";
+import { MapPin, Menu } from "lucide-react";
 
 export function SiteHeader() {
   return (
@@ -11,29 +11,32 @@ export function SiteHeader() {
           href="/"
           className="flex items-center gap-2 font-bold text-xl tracking-tighter"
         >
-          <Rocket className="h-6 w-6 text-primary" />
+          <MapPin className="h-6 w-6 text-primary" />
           <span>Mojoday</span>
         </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
           <Link
-            href="/#services"
+            href="/#destinations"
             className="transition-colors hover:text-primary"
           >
-            Services
-          </Link>
-          <Link href="/#about" className="transition-colors hover:text-primary">
-            About
+            인기 여행지
           </Link>
           <Link
-            href="/#contact"
+            href="/#how-it-works"
             className="transition-colors hover:text-primary"
           >
-            Contact
+            사용 방법
+          </Link>
+          <Link
+            href="/#features"
+            className="transition-colors hover:text-primary"
+          >
+            기능
           </Link>
           <Button asChild size="sm">
-            <Link href="/#contact">Get Started</Link>
+            <Link href="/#destinations">무료로 시작하기</Link>
           </Button>
         </nav>
 
@@ -42,30 +45,30 @@ export function SiteHeader() {
           <SheetTrigger asChild className="md:hidden">
             <Button variant="ghost" size="icon">
               <Menu className="h-5 w-5" />
-              <span className="sr-only">Toggle menu</span>
+              <span className="sr-only">메뉴 열기</span>
             </Button>
           </SheetTrigger>
           <SheetContent side="right">
             <nav className="flex flex-col gap-4 mt-8">
               <Link
-                href="/#services"
+                href="/#destinations"
                 className="text-lg font-medium hover:text-primary"
               >
-                Services
+                인기 여행지
               </Link>
               <Link
-                href="/#about"
+                href="/#how-it-works"
                 className="text-lg font-medium hover:text-primary"
               >
-                About
+                사용 방법
               </Link>
               <Link
-                href="/#contact"
+                href="/#features"
                 className="text-lg font-medium hover:text-primary"
               >
-                Contact
+                기능
               </Link>
-              <Button className="w-full mt-4">Get Started</Button>
+              <Button className="w-full mt-4">무료로 시작하기</Button>
             </nav>
           </SheetContent>
         </Sheet>
