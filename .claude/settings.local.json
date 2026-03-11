@@ -29,7 +29,9 @@
       "mcp__claude_ai_Cloudflare_Developer_Platform__accounts_list",
       "mcp__claude_ai_Cloudflare_Developer_Platform__d1_databases_list",
       "Bash(curl -s -X PUT http://localhost:3000/api/plans/MyMZEtL5FlA -H \"Content-Type: application/json\" -d '{:*)",
-      "Bash(node -e \":*)"
+      "Bash(node -e \":*)",
+      "Bash(find /Users/realmojo/Desktop/m/mojoday/components -type f \\\\\\(-name *.tsx -o -name *.ts \\\\\\))",
+      "Bash(find lib:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

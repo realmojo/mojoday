@@ -17,9 +17,11 @@ export type PlanCardData = {
 export function PlanCard({
   plan,
   rank,
+  href,
 }: {
   plan: PlanCardData;
-  rank: number;
+  rank?: number;
+  href?: string;
 }) {
   const dayCount = plan.travel_schedule?.length ?? 0;
   const mainCity = plan.regions?.[0] ?? plan.country ?? "";
@@ -27,8 +29,8 @@ export function PlanCard({
 
   return (
     <Link
-      href={`/plan/${plan.video_id}`}
-      className="group relative rounded-2xl overflow-hidden aspect-square cursor-pointer hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 bg-muted block"
+      href={href ?? `/plan/${plan.video_id}`}
+      className="group relative rounded-2xl overflow-hidden aspect-video cursor-pointer hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 bg-muted block"
       aria-label={plan.title}
     >
 
@@ -44,10 +46,12 @@ export function PlanCard({
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/15" />
 
       {/* 상단 좌: 순위 */}
-      <div className="absolute top-4 left-4 z-10">
-        <span className="text-white font-bold text-lg leading-none">{rank}</span>
-        <div className="w-5 h-0.5 bg-white mt-1" />
-      </div>
+      {rank !== undefined && (
+        <div className="absolute top-4 left-4 z-10">
+          <span className="text-white font-bold text-lg leading-none">{rank}</span>
+          <div className="w-5 h-0.5 bg-white mt-1" />
+        </div>
+      )}
 
       {/* 상단 우: 일정 수 */}
       {dayCount > 0 && (
@@ -60,10 +64,10 @@ export function PlanCard({
       {/* 하단: 목적지 정보 */}
       <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
         {/* 도시명 */}
-        <h3 className="text-white text-2xl font-bold leading-tight drop-shadow-md">
+        <h3 className="text-white text-lg font-bold leading-tight drop-shadow-md">
           {mainCity}
           {subCity && (
-            <span className="text-white/70 text-lg">, {subCity}</span>
+            <span className="text-white/70 text-base">, {subCity}</span>
           )}
         </h3>
         {/* 국가명 */}

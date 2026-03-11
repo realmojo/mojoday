@@ -33,7 +33,10 @@ export function TravelPlanForm({ stacked = false }: { stacked?: boolean }) {
         return;
       }
 
-      sessionStorage.setItem(`travelPlan:${data.videoId}`, JSON.stringify(data.plan));
+      sessionStorage.setItem(
+        `travelPlan:${data.videoId}`,
+        JSON.stringify(data.plan),
+      );
       router.push(`/plan/${data.videoId}`);
     } catch {
       setError("네트워크 오류가 발생했습니다. 다시 시도해주세요.");
@@ -77,9 +80,7 @@ export function TravelPlanForm({ stacked = false }: { stacked?: boolean }) {
         </Button>
       </form>
 
-      {error && (
-        <p className="text-sm text-destructive text-center">{error}</p>
-      )}
+      {error && <p className="text-sm text-destructive text-center">{error}</p>}
 
       {loading && (
         <p className="text-sm text-muted-foreground text-center">

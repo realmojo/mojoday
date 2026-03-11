@@ -8,11 +8,10 @@ import {
   type TravelPlanData,
 } from "@/components/travel-plan-detail";
 import { TravelPlanEditor } from "@/components/travel-plan-editor";
-import { Loader2, Eye, Pencil, BookmarkPlus } from "lucide-react";
+import { Loader2, Eye, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/lib/supabase";
 
-export default function PlanPage() {
+export default function MyPlanPage() {
   const params = useParams();
   const router = useRouter();
   const id = params.id as string;
@@ -20,45 +19,30 @@ export default function PlanPage() {
   const [plan, setPlan] = useState<TravelPlanData | null>(null);
   const [ready, setReady] = useState(false);
   const [tab, setTab] = useState<"view" | "edit">("view");
-  const [copying, setCopying] = useState(false);
-
-  async function handleCopyToMy() {
-    setCopying(true);
-    const res = await fetch("/api/my-plans", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ video_id: id }),
-    });
-    if (res.status === 401) {
-      router.push("/login");
-      setCopying(false);
-      return;
-    }
-    const { id: myPlanId } = await res.json();
-    router.push(`/my/${myPlanId}`);
-  }
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    async function loadPlan() {
-      const { data } = await supabase
-        .from("plans")
-        .select("video_id, title, thumbnail_url, channel_name, summary, country, regions, trip_type, tags, travel_schedule, travel_tips, meta")
-        .eq("video_id", id)
-        .single();
-
-      if (data) {
-        const meta = data.meta ?? {};
+    fetch(`/api/my-plans/${id}`)
+      .then((r) => {
+        if (r.status === 401) { router.push("/login"); return null; }
+        if (r.status === 404) { router.push("/my"); return null; }
+        return r.json();
+      })
+      .then((json) => {
+        if (!json) return;
+        const d = json.data;
+        const meta = d.meta ?? {};
         setPlan({
           video_info: {
-            id: data.video_id,
-            title: data.title,
-            thumbnail_url: data.thumbnail_url,
-            channel_name: data.channel_name,
-            summary: data.summary,
-            country: data.country,
-            regions: data.regions,
-            type: data.trip_type,
-            tags: data.tags,
+            id: d.id,
+            title: d.title,
+            thumbnail_url: d.thumbnail_url,
+            channel_name: d.channel_name,
+            summary: d.summary,
+            country: d.country,
+            regions: d.regions,
+            type: d.trip_type,
+            tags: d.tags,
             trip_duration: meta.trip_duration ?? null,
             best_season: meta.best_season ?? null,
             budget_level: meta.budget_level ?? null,
@@ -68,24 +52,27 @@ export default function PlanPage() {
             currency: meta.currency ?? null,
             language: meta.language ?? null,
           },
-          travel_schedule: data.travel_schedule,
-          travel_tips: data.travel_tips,
+          travel_schedule: d.travel_schedule,
+          travel_tips: d.travel_tips,
         });
-      }
-
-      setReady(true);
-    }
-
-    loadPlan();
-  }, [id]);
+        setReady(true);
+      });
+  }, [id, router]);
 
   const handleSave = async (updated: TravelPlanData) => {
     setPlan(updated);
-    await fetch(`/api/plans/${id}`, {
+    await fetch(`/api/my-plans/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updated),
     });
+  };
+
+  const handleDelete = async () => {
+    if (!confirm("이 여행 일정을 삭제하시겠습니까?")) return;
+    setDeleting(true);
+    await fetch(`/api/my-plans/${id}`, { method: "DELETE" });
+    router.push("/my");
   };
 
   if (!ready) {
@@ -96,14 +83,7 @@ export default function PlanPage() {
     );
   }
 
-  if (!plan) {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4 text-center">
-        <p className="text-muted-foreground">여행 계획 데이터가 없습니다.</p>
-        <Button onClick={() => router.push("/")}>홈으로 돌아가기</Button>
-      </div>
-    );
-  }
+  if (!plan) return null;
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -135,18 +115,17 @@ export default function PlanPage() {
             편집하기
           </button>
 
-          <div className="ml-auto">
+          <div className="ml-auto flex items-center gap-2">
+            <span className="text-xs text-muted-foreground bg-muted px-2.5 py-1 rounded-full">
+              내 일정
+            </span>
             <button
-              onClick={handleCopyToMy}
-              disabled={copying}
-              className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium transition-colors border border-emerald-500 text-emerald-600 hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-emerald-950 disabled:opacity-60"
+              onClick={handleDelete}
+              disabled={deleting}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors text-destructive hover:bg-destructive/10 disabled:opacity-60"
             >
-              {copying ? (
-                <Loader2 className="h-3.5 w-3.5 animate-spin" />
-              ) : (
-                <BookmarkPlus className="h-3.5 w-3.5" />
-              )}
-              내 일정으로 가져오기
+              {deleting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Trash2 className="h-3.5 w-3.5" />}
+              삭제
             </button>
           </div>
         </div>
