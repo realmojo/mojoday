@@ -16,7 +16,15 @@
       "mcp__supabase__get_publishable_keys",
       "Bash(npm install @supabase/supabase-js)",
       "mcp__supabase__get_advisors",
-      "mcp__supabase__execute_sql"
+      "mcp__supabase__execute_sql",
+      "WebFetch(domain:ai.google.dev)",
+      "Bash(curl -s -X PUT http://localhost:3000/api/plans/_HmN125EL3A -H \"Content-Type: application/json\" -d '{:*)",
+      "Bash(npm install youtube-transcript --legacy-peer-deps)",
+      "Bash(curl -s -X PUT http://localhost:3000/api/plans/Np-NAT0T5NI -H \"Content-Type: application/json\" -d '{:*)",
+      "mcp__claude_ai_Cloudflare_Developer_Platform__search_cloudflare_documentation",
+      "Bash(npm install @supabase/ssr --legacy-peer-deps)",
+      "Bash(npx shadcn@latest add avatar dropdown-menu --yes)",
+      "Bash(npm install --save-dev @opennextjs/cloudflare wrangler)"
     ]
   },
   "enableAllProjectMcpServers": true,

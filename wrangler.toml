@@ -1,0 +1,16 @@
+name = "mojoday"
+main = ".open-next/worker.js"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = ".open-next/assets"
+
+[observability]
+enabled = true
+
+# 환경변수는 Cloudflare Dashboard > Workers > Settings > Variables 에 추가하거나
+# 아래에 직접 입력 (비공개 값은 wrangler secret put 명령어 사용 권장)
+[vars]
+NEXT_PUBLIC_SUPABASE_URL = "https://crjwqjqzpqmalgfbnvwu.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNyandxanF6cHFtYWxnZmJudnd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxMTg3NDQsImV4cCI6MjA4ODY5NDc0NH0.nePRukIQN2ivG7ub5ZYQk0PAmdDY6nqJVeSwkJBZ8XU"

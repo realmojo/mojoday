@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
 import {
   Link2,
   MapPin,
@@ -8,13 +6,14 @@ import {
   CalendarDays,
   UtensilsCrossed,
   Wallet,
-  Play,
-  ArrowRight,
 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { TravelPlanForm } from "@/components/travel-plan-form";
 import { createServerClient } from "@/lib/supabase";
+import { PlanCard, type PlanCardData } from "@/components/plan-card";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "AI 여행 플래너 - 유튜브로 완성하는 나만의 여행",
@@ -73,87 +72,57 @@ const features = [
   },
 ];
 
-type Plan = {
-  video_id: string;
-  title: string;
-  thumbnail_url: string;
-  channel_name: string;
-  summary: string;
-  country: string | null;
-  regions: string[] | null;
-  tags: string[] | null;
-  trip_type: string | null;
-  travel_schedule: { day: number }[];
-};
-
-async function getPlans(): Promise<Plan[]> {
+async function getPlans(): Promise<PlanCardData[]> {
   try {
     const db = createServerClient();
     const { data } = await db
       .from("plans")
       .select("video_id, title, thumbnail_url, channel_name, summary, country, regions, tags, trip_type, travel_schedule")
       .order("created_at", { ascending: false });
-    return (data as Plan[]) ?? [];
+    return (data as PlanCardData[]) ?? [];
   } catch {
     return [];
   }
 }
 
+function getCountries(plans: PlanCardData[]) {
+  const countryMap = new Map<string, number>();
+  for (const p of plans) {
+    if (p.country) countryMap.set(p.country, (countryMap.get(p.country) ?? 0) + 1);
+  }
+  return [...countryMap.entries()].map(([name, count]) => ({ name, count }));
+}
+
 export default async function Home() {
   const plans = await getPlans();
+  const countries = getCountries(plans);
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <SiteHeader />
 
       <main className="flex-1">
-        {/* Hero */}
-        <section className="relative py-20 md:py-32 overflow-hidden">
-          <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]" />
-          <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[400px] w-[400px] rounded-full bg-primary/20 opacity-20 blur-[120px]" />
-
-          <div className="container mx-auto px-4 md:px-6 flex flex-col items-center text-center space-y-8">
-            <Badge variant="secondary" className="px-4 py-1.5 text-sm rounded-full gap-1.5">
-              <Sparkles className="h-3.5 w-3.5" />
-              AI 기반 여행 플래너
-            </Badge>
-
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight max-w-4xl">
-              유튜브 영상 하나로{" "}
-              <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">
-                완성하는 여행 계획
-              </span>
-            </h1>
-
-            <p className="text-xl text-muted-foreground max-w-2xl leading-relaxed">
-              좋아하는 여행 유튜버의 영상 URL을 붙여넣으면,{" "}
-              <br className="hidden md:block" />
-              AI가 일정·맛집·숙소·교통을 자동으로 정리해드립니다.
-            </p>
-
-            <TravelPlanForm />
-
-            <p className="text-sm text-muted-foreground">
-              무료로 시작하세요 · 신용카드 불필요
-            </p>
-
-            <div className="pt-4 flex items-center gap-8 md:gap-16 text-center">
-              <div>
-                <div className="text-2xl font-bold">12,000+</div>
-                <div className="text-sm text-muted-foreground">분석된 영상</div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold">50+</div>
-                <div className="text-sm text-muted-foreground">여행 도시</div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold">4.9★</div>
-                <div className="text-sm text-muted-foreground">사용자 평점</div>
+        {/* 국가별 여행 */}
+        {countries.length > 0 && (
+          <section id="destinations" className="py-16">
+            <div className="container mx-auto px-4 md:px-6">
+              <h2 className="text-xl font-bold mb-5">국가별 여행</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                {countries.map(({ name, count }) => (
+                  <a
+                    key={name}
+                    href={`/country/${encodeURIComponent(name)}`}
+                    className="flex flex-col items-center justify-center gap-1 p-4 rounded-2xl border bg-background hover:border-primary hover:shadow-md transition-all text-center"
+                  >
+                    <MapPin className="h-5 w-5 text-primary" />
+                    <span className="font-semibold text-sm">{name}</span>
+                    <span className="text-xs text-muted-foreground">{count}개 일정</span>
+                  </a>
+                ))}
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* 실제 여행 계획 */}
         {plans.length > 0 && (
@@ -169,89 +138,9 @@ export default async function Home() {
               </div>
 
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {plans.map((plan) => {
-                  const dayCount = plan.travel_schedule?.length ?? 0;
-                  const displayTags = (plan.tags ?? []).slice(0, 4);
-                  const displayRegions = (plan.regions ?? []).slice(0, 3);
-
-                  return (
-                    <Link
-                      key={plan.video_id}
-                      href={`/plan/${plan.video_id}`}
-                      className="group block rounded-2xl border bg-background overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                    >
-                      {/* Thumbnail */}
-                      <div className="relative aspect-video overflow-hidden bg-muted">
-                        <img
-                          src={plan.thumbnail_url}
-                          alt={plan.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-
-                        {/* 채널명 */}
-                        <div className="absolute top-3 left-3">
-                          <span className="bg-black/60 text-white text-xs px-2.5 py-1 rounded-full backdrop-blur-sm flex items-center gap-1.5">
-                            <Play className="h-3 w-3 fill-white" />
-                            {plan.channel_name}
-                          </span>
-                        </div>
-
-                        {/* 나라 */}
-                        {plan.country && (
-                          <div className="absolute top-3 right-3">
-                            <span className="bg-primary text-primary-foreground text-xs px-2.5 py-1 rounded-full font-medium">
-                              {plan.country}
-                            </span>
-                          </div>
-                        )}
-
-                        {/* 일정 수 */}
-                        {dayCount > 0 && (
-                          <div className="absolute bottom-3 right-3">
-                            <span className="bg-background/90 text-foreground text-xs px-2.5 py-1 rounded-full font-medium backdrop-blur-sm flex items-center gap-1">
-                              <CalendarDays className="h-3 w-3" />
-                              {dayCount}일 일정
-                            </span>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* 내용 */}
-                      <div className="p-4 space-y-3">
-                        <h3 className="font-bold text-base leading-snug line-clamp-2 group-hover:text-primary transition-colors">
-                          {plan.title}
-                        </h3>
-
-                        {/* 지역 */}
-                        {displayRegions.length > 0 && (
-                          <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                            <MapPin className="h-3.5 w-3.5 shrink-0" />
-                            <span className="truncate">{displayRegions.join(" · ")}</span>
-                          </div>
-                        )}
-
-                        {/* 태그 */}
-                        {displayTags.length > 0 && (
-                          <div className="flex flex-wrap gap-1.5">
-                            {displayTags.map((tag) => (
-                              <Badge key={tag} variant="secondary" className="text-xs">
-                                #{tag}
-                              </Badge>
-                            ))}
-                          </div>
-                        )}
-
-                        <div className="flex items-center justify-between pt-1">
-                          <p className="text-xs text-muted-foreground line-clamp-1 flex-1 mr-2">
-                            {plan.summary}
-                          </p>
-                          <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all shrink-0" />
-                        </div>
-                      </div>
-                    </Link>
-                  );
-                })}
+                {plans.map((plan) => (
+                  <PlanCard key={plan.video_id} plan={plan} />
+                ))}
               </div>
             </div>
           </section>

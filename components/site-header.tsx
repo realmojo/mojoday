@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { MapPin, Menu } from "lucide-react";
+import { AuthButton } from "@/components/auth-button";
 
 export function SiteHeader() {
   return (
@@ -35,43 +36,46 @@ export function SiteHeader() {
           >
             기능
           </Link>
-          <Button asChild size="sm">
-            <Link href="/#destinations">무료로 시작하기</Link>
-          </Button>
+          <AuthButton />
         </nav>
 
         {/* Mobile Navigation */}
-        <Sheet>
-          <SheetTrigger asChild className="md:hidden">
-            <Button variant="ghost" size="icon">
-              <Menu className="h-5 w-5" />
-              <span className="sr-only">메뉴 열기</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right">
-            <nav className="flex flex-col gap-4 mt-8">
-              <Link
-                href="/#destinations"
-                className="text-lg font-medium hover:text-primary"
-              >
-                인기 여행지
-              </Link>
-              <Link
-                href="/#how-it-works"
-                className="text-lg font-medium hover:text-primary"
-              >
-                사용 방법
-              </Link>
-              <Link
-                href="/#features"
-                className="text-lg font-medium hover:text-primary"
-              >
-                기능
-              </Link>
-              <Button className="w-full mt-4">무료로 시작하기</Button>
-            </nav>
-          </SheetContent>
-        </Sheet>
+        <div className="flex items-center gap-2 md:hidden">
+          <AuthButton />
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">메뉴 열기</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right">
+              <nav className="flex flex-col gap-4 mt-8">
+                <Link
+                  href="/#destinations"
+                  className="text-lg font-medium hover:text-primary"
+                >
+                  인기 여행지
+                </Link>
+                <Link
+                  href="/#how-it-works"
+                  className="text-lg font-medium hover:text-primary"
+                >
+                  사용 방법
+                </Link>
+                <Link
+                  href="/#features"
+                  className="text-lg font-medium hover:text-primary"
+                >
+                  기능
+                </Link>
+                <Button asChild className="w-full mt-4">
+                  <Link href="/login">로그인</Link>
+                </Button>
+              </nav>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </header>
   );
