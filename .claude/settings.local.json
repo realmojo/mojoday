@@ -24,7 +24,12 @@
       "mcp__claude_ai_Cloudflare_Developer_Platform__search_cloudflare_documentation",
       "Bash(npm install @supabase/ssr --legacy-peer-deps)",
       "Bash(npx shadcn@latest add avatar dropdown-menu --yes)",
-      "Bash(npm install --save-dev @opennextjs/cloudflare wrangler)"
+      "Bash(npm install --save-dev @opennextjs/cloudflare wrangler)",
+      "Bash(curl -s -X PUT http://localhost:3000/api/plans/r7I27bU3mWI -H \"Content-Type: application/json\" -d '{:*)",
+      "mcp__claude_ai_Cloudflare_Developer_Platform__accounts_list",
+      "mcp__claude_ai_Cloudflare_Developer_Platform__d1_databases_list",
+      "Bash(curl -s -X PUT http://localhost:3000/api/plans/MyMZEtL5FlA -H \"Content-Type: application/json\" -d '{:*)",
+      "Bash(node -e \":*)"
     ]
   },
   "enableAllProjectMcpServers": true,

@@ -24,6 +24,16 @@ export async function PUT(
         tags: video_info?.tags ?? [],
         travel_schedule: travel_schedule ?? [],
         travel_tips: travel_tips ?? {},
+        meta: {
+          trip_duration: video_info?.trip_duration ?? null,
+          best_season: video_info?.best_season ?? null,
+          budget_level: video_info?.budget_level ?? null,
+          difficulty_level: video_info?.difficulty_level ?? null,
+          travel_style: video_info?.travel_style ?? null,
+          visa_info: video_info?.visa_info ?? null,
+          currency: video_info?.currency ?? null,
+          language: video_info?.language ?? null,
+        },
       },
       { onConflict: "video_id" }
     );

@@ -1,7 +1,8 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { MapPin, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { AuthButton } from "@/components/auth-button";
 
 export function SiteHeader() {
@@ -12,7 +13,13 @@ export function SiteHeader() {
           href="/"
           className="flex items-center gap-2 font-bold text-xl tracking-tighter"
         >
-          <MapPin className="h-6 w-6 text-primary" />
+          <Image
+            src="/icon.png"
+            alt="Mojoday Logo"
+            width={28}
+            height={28}
+            className="rounded-md"
+          />
           <span>Mojoday</span>
         </Link>
 

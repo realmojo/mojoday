@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { MapPin } from "lucide-react";
+import Image from "next/image";
 import { createAuthBrowserClient } from "@/lib/supabase-auth";
 
 export default function LoginPage() {
@@ -35,8 +35,17 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-background px-4">
       {/* 로고 */}
-      <Link href="/" className="flex items-center gap-2 font-bold text-2xl tracking-tighter mb-10">
-        <MapPin className="h-7 w-7 text-primary" />
+      <Link
+        href="/"
+        className="flex items-center gap-2 font-bold text-2xl tracking-tighter mb-10"
+      >
+        <Image
+          src="/icon.png"
+          width={32}
+          height={32}
+          alt="Mojoday"
+          className="rounded-md"
+        />
         <span>Mojoday</span>
       </Link>
 
@@ -100,14 +109,16 @@ export default function LoginPage() {
         </div>
 
         <p className="text-xs text-center text-muted-foreground">
-          로그인 시{" "}
-          <span className="underline cursor-pointer">이용약관</span> 및{" "}
-          <span className="underline cursor-pointer">개인정보처리방침</span>에
-          동의하게 됩니다.
+          로그인 시 <span className="underline cursor-pointer">이용약관</span>{" "}
+          및 <span className="underline cursor-pointer">개인정보처리방침</span>
+          에 동의하게 됩니다.
         </p>
       </div>
 
-      <Link href="/" className="mt-6 text-sm text-muted-foreground hover:text-foreground transition-colors">
+      <Link
+        href="/"
+        className="mt-6 text-sm text-muted-foreground hover:text-foreground transition-colors"
+      >
         ← 홈으로 돌아가기
       </Link>
     </div>

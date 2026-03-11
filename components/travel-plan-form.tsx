@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { YoutubeIcon, ArrowRight, Loader2 } from "lucide-react";
 
-export function TravelPlanForm() {
+export function TravelPlanForm({ stacked = false }: { stacked?: boolean }) {
   const router = useRouter();
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
@@ -46,7 +46,7 @@ export function TravelPlanForm() {
     <div className="w-full space-y-3">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-2xl mx-auto flex flex-col sm:flex-row gap-3"
+        className={`w-full flex flex-col gap-3 ${!stacked ? "max-w-2xl mx-auto sm:flex-row" : ""}`}
       >
         <div className="relative flex-1">
           <YoutubeIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
