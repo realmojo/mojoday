@@ -20,6 +20,15 @@ for pid in range(34566, 34616):
         r = json.loads(resp.read().decode())
         urls.append(r["link"])
 
+# 트렌딩 5개 포스트 추가
+urls += [
+    "https://devupbox.com/kin/basic-pension-calculator-2026",
+    "https://devupbox.com/kin/local-election-part-time-job-2026",
+    "https://devupbox.com/kin/youth-rent-support-2026",
+    "https://devupbox.com/finance/car-tax-refund-guide-2026",
+    "https://devupbox.com/finance/capital-gains-tax-suspension-2026",
+]
+
 print(f"수집된 URL: {len(urls)}개\n")
 
 # 2) Google Indexing API 인증
