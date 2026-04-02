@@ -1,0 +1,100 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://devupbox.com/#organization",
+      "name": "데브업박스",
+      "url": "https://devupbox.com",
+      "logo": {
+        "@type": "ImageObject",
+        "@id": "https://devupbox.com/#logo",
+        "url": "https://devupbox.com/wp-content/uploads/2025/07/web-app-manifest-512x512-1.png"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://devupbox.com/#website",
+      "url": "https://devupbox.com",
+      "name": "데브업박스",
+      "alternateName": "Devupbox",
+      "publisher": {
+        "@id": "https://devupbox.com/#organization"
+      },
+      "inLanguage": "ko-KR"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "REPLACE_WITH_CATEGORY_URL#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "WebPage",
+            "@id": "https://devupbox.com",
+            "name": "홈"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "WebPage",
+            "@id": "REPLACE_WITH_CATEGORY_URL",
+            "name": "REPLACE_WITH_CATEGORY_NAME"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "CollectionPage",
+      "@id": "REPLACE_WITH_CATEGORY_URL#webpage",
+      "url": "REPLACE_WITH_CATEGORY_URL",
+      "name": "REPLACE_WITH_CATEGORY_NAME - 데브업박스",
+      "description": "REPLACE_WITH_CATEGORY_DESCRIPTION",
+      "isPartOf": {
+        "@id": "https://devupbox.com/#website"
+      },
+      "inLanguage": "ko-KR",
+      "breadcrumb": {
+        "@id": "REPLACE_WITH_CATEGORY_URL#breadcrumb"
+      },
+      "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "url": "REPLACE_WITH_ARTICLE_1_URL",
+            "name": "REPLACE_WITH_ARTICLE_1_TITLE"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "url": "REPLACE_WITH_ARTICLE_2_URL",
+            "name": "REPLACE_WITH_ARTICLE_2_TITLE"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "url": "REPLACE_WITH_ARTICLE_3_URL",
+            "name": "REPLACE_WITH_ARTICLE_3_TITLE"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "url": "REPLACE_WITH_ARTICLE_4_URL",
+            "name": "REPLACE_WITH_ARTICLE_4_TITLE"
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "url": "REPLACE_WITH_ARTICLE_5_URL",
+            "name": "REPLACE_WITH_ARTICLE_5_TITLE"
+          }
+        ]
+      }
+    }
+  ]
+}

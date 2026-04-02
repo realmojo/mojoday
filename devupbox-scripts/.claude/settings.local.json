@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(geo)",
+      "WebFetch(domain:devupbox.com)",
+      "Bash(python3:*)",
+      "Bash(pip3 install:*)",
+      "Bash(grep -c '\"\"slug\"\"' /Users/gshs/Desktop/m/mojoday/devupbox-scripts/publish-import-car-50-posts.py)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "supabase"
+  ]
+}

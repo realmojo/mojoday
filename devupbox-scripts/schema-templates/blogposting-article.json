@@ -1,0 +1,175 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://devupbox.com/#organization",
+      "name": "데브업박스",
+      "alternateName": "Devupbox",
+      "url": "https://devupbox.com",
+      "logo": {
+        "@type": "ImageObject",
+        "@id": "https://devupbox.com/#logo",
+        "url": "https://devupbox.com/wp-content/uploads/2025/07/web-app-manifest-512x512-1.png",
+        "contentUrl": "https://devupbox.com/wp-content/uploads/2025/07/web-app-manifest-512x512-1.png",
+        "width": 512,
+        "height": 512
+      },
+      "sameAs": [
+        "REPLACE_WITH_YOUTUBE_CHANNEL_URL",
+        "REPLACE_WITH_LINKEDIN_PAGE_URL",
+        "REPLACE_WITH_TWITTER_X_URL",
+        "REPLACE_WITH_GITHUB_URL",
+        "REPLACE_WITH_NAVER_BLOG_URL"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://devupbox.com/#website",
+      "url": "https://devupbox.com",
+      "name": "데브업박스",
+      "alternateName": "Devupbox",
+      "publisher": {
+        "@id": "https://devupbox.com/#organization"
+      },
+      "inLanguage": "ko-KR"
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "REPLACE_WITH_FEATURED_IMAGE_URL",
+      "url": "REPLACE_WITH_FEATURED_IMAGE_URL",
+      "width": 1200,
+      "height": 630,
+      "caption": "REPLACE_WITH_IMAGE_ALT_TEXT",
+      "inLanguage": "ko-KR"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "REPLACE_WITH_POST_URL#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "WebPage",
+            "@id": "https://devupbox.com",
+            "name": "홈"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "WebPage",
+            "@id": "REPLACE_WITH_CATEGORY_URL",
+            "name": "REPLACE_WITH_CATEGORY_NAME"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "WebPage",
+            "@id": "REPLACE_WITH_POST_URL",
+            "name": "REPLACE_WITH_POST_TITLE"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "REPLACE_WITH_POST_URL#webpage",
+      "url": "REPLACE_WITH_POST_URL",
+      "name": "REPLACE_WITH_POST_TITLE - 데브업박스",
+      "datePublished": "REPLACE_WITH_ISO8601_DATE",
+      "dateModified": "REPLACE_WITH_ISO8601_DATE",
+      "isPartOf": {
+        "@id": "https://devupbox.com/#website"
+      },
+      "primaryImageOfPage": {
+        "@id": "REPLACE_WITH_FEATURED_IMAGE_URL"
+      },
+      "inLanguage": "ko-KR",
+      "breadcrumb": {
+        "@id": "REPLACE_WITH_POST_URL#breadcrumb"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://devupbox.com/author/strikers1999",
+      "name": "데브업",
+      "url": "https://devupbox.com/author/strikers1999",
+      "image": {
+        "@type": "ImageObject",
+        "url": "REPLACE_WITH_AUTHOR_PHOTO_URL",
+        "width": 400,
+        "height": 400
+      },
+      "description": "IT, 엑셀, 금융 분야 전문 블로거. 실용적인 정보와 가이드를 제공합니다.",
+      "jobTitle": "IT & Finance Blogger",
+      "worksFor": {
+        "@type": "Organization",
+        "@id": "https://devupbox.com/#organization",
+        "name": "데브업박스"
+      },
+      "knowsAbout": [
+        "Microsoft Excel",
+        "IT Tips",
+        "Personal Finance",
+        "Loans",
+        "Car Insurance",
+        "Web Development"
+      ],
+      "sameAs": [
+        "REPLACE_WITH_LINKEDIN_PROFILE_URL",
+        "REPLACE_WITH_GITHUB_PROFILE_URL",
+        "REPLACE_WITH_TWITTER_PROFILE_URL"
+      ]
+    },
+    {
+      "@type": "BlogPosting",
+      "@id": "REPLACE_WITH_POST_URL#richSnippet",
+      "headline": "REPLACE_WITH_POST_TITLE_ONLY_NO_SITE_NAME",
+      "description": "REPLACE_WITH_META_DESCRIPTION_160_CHARS",
+      "datePublished": "REPLACE_WITH_ISO8601_DATE",
+      "dateModified": "REPLACE_WITH_ISO8601_DATE",
+      "author": {
+        "@type": "Person",
+        "@id": "https://devupbox.com/author/strikers1999",
+        "name": "데브업",
+        "url": "https://devupbox.com/author/strikers1999"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://devupbox.com/#organization",
+        "name": "데브업박스",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://devupbox.com/wp-content/uploads/2025/07/web-app-manifest-512x512-1.png"
+        }
+      },
+      "image": {
+        "@id": "REPLACE_WITH_FEATURED_IMAGE_URL"
+      },
+      "mainEntityOfPage": {
+        "@id": "REPLACE_WITH_POST_URL#webpage"
+      },
+      "isPartOf": {
+        "@id": "REPLACE_WITH_POST_URL#webpage"
+      },
+      "inLanguage": "ko-KR",
+      "articleSection": "REPLACE_WITH_CATEGORY_NAME",
+      "keywords": ["REPLACE_KEYWORD_1", "REPLACE_KEYWORD_2", "REPLACE_KEYWORD_3"],
+      "wordCount": "REPLACE_WITH_WORD_COUNT",
+      "isAccessibleForFree": true,
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          "article h1",
+          "article .entry-content > p:first-of-type",
+          "article .entry-content > p:nth-of-type(2)"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://devupbox.com/#organization",
+      "name": "데브업박스",
+      "alternateName": "Devupbox",
+      "url": "https://devupbox.com",
+      "logo": {
+        "@type": "ImageObject",
+        "@id": "https://devupbox.com/#logo",
+        "url": "https://devupbox.com/wp-content/uploads/2025/07/web-app-manifest-512x512-1.png",
+        "contentUrl": "https://devupbox.com/wp-content/uploads/2025/07/web-app-manifest-512x512-1.png",
+        "width": 512,
+        "height": 512
+      },
+      "image": "https://devupbox.com/wp-content/uploads/2025/07/web-app-manifest-512x512-1.png",
+      "description": "IT, 엑셀, 금융, 대출, 자동차 등 실용적인 정보를 제공하는 한국어 블로그",
+      "foundingDate": "2024",
+      "inLanguage": "ko-KR",
+      "sameAs": [
+        "REPLACE_WITH_YOUTUBE_CHANNEL_URL",
+        "REPLACE_WITH_LINKEDIN_PAGE_URL",
+        "REPLACE_WITH_TWITTER_X_URL",
+        "REPLACE_WITH_GITHUB_URL",
+        "REPLACE_WITH_NAVER_BLOG_URL",
+        "REPLACE_WITH_FACEBOOK_PAGE_URL"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "email": "REPLACE_WITH_EMAIL",
+        "availableLanguage": "Korean"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://devupbox.com/#website",
+      "url": "https://devupbox.com",
+      "name": "데브업박스",
+      "alternateName": "Devupbox",
+      "description": "IT, 엑셀, 금융, 대출, 자동차 등 실용적인 정보를 제공하는 블로그",
+      "publisher": {
+        "@id": "https://devupbox.com/#organization"
+      },
+      "inLanguage": "ko-KR",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://devupbox.com/?s={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "CollectionPage",
+      "@id": "https://devupbox.com/#webpage",
+      "url": "https://devupbox.com",
+      "name": "데브업박스 - IT, 엑셀, 금융, 대출, 자동차 실용 정보",
+      "about": {
+        "@id": "https://devupbox.com/#organization"
+      },
+      "isPartOf": {
+        "@id": "https://devupbox.com/#website"
+      },
+      "inLanguage": "ko-KR",
+      "description": "IT, 엑셀, 금융, 대출, 자동차 등 다양한 주제의 실용적인 정보를 제공하는 블로그입니다."
+    }
+  ]
+}
