@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
+import { company } from "@/lib/company";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,31 +14,31 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteTitle = `${company.name}(${company.nameEn}) - 웹페이지 디자인 · 디지털 마케팅`;
+
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "https://mojoday.app"
-  ),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || company.website),
   title: {
-    default: "Mojoday - 유튜브로 완성하는 AI 여행 플래너",
-    template: "%s | Mojoday",
+    default: siteTitle,
+    template: `%s | ${company.nameEn}`,
   },
-  description:
-    "좋아하는 여행 유튜버의 영상 URL 하나로 일정, 맛집, 숙소, 교통까지 완벽한 여행 계획을 자동으로 만들어드립니다.",
+  description: company.description,
   keywords: [
-    "여행 계획",
-    "AI 여행 플래너",
-    "유튜브 여행",
-    "여행 일정",
-    "여행지 추천",
-    "맛집 추천",
-    "자동 여행 계획",
-    "도쿄 여행",
-    "오사카 여행",
-    "파리 여행",
+    "모조데이",
+    "Mojoday",
+    "웹페이지 디자인",
+    "웹사이트 제작",
+    "홈페이지 제작",
+    "랜딩페이지 제작",
+    "디지털 마케팅",
+    "검색 최적화",
+    "SEO 컨설팅",
+    "영등포 웹에이전시",
   ],
-  authors: [{ name: "Mojoday" }],
-  creator: "Mojoday",
-  publisher: "Mojoday",
+  authors: [{ name: company.nameEn, url: company.website }],
+  creator: company.nameEn,
+  publisher: company.nameEn,
+  alternates: { canonical: "/" },
   formatDetection: {
     email: false,
     address: false,
@@ -45,28 +46,25 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "en_US",
+    locale: "ko_KR",
     url: "/",
-    siteName: "Mojoday",
-    title: "Mojoday - 유튜브로 완성하는 AI 여행 플래너",
-    description:
-      "좋아하는 여행 유튜버의 영상 URL 하나로 일정, 맛집, 숙소, 교통까지 완벽한 여행 계획을 자동으로 만들어드립니다.",
+    siteName: company.nameEn,
+    title: siteTitle,
+    description: company.description,
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/logo.png",
         width: 1200,
         height: 630,
-        alt: "Mojoday - AI 여행 플래너",
+        alt: `${company.nameEn} 로고`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mojoday - 유튜브로 완성하는 AI 여행 플래너",
-    description:
-      "좋아하는 여행 유튜버의 영상 URL 하나로 일정, 맛집, 숙소, 교통까지 완벽한 여행 계획을 자동으로 만들어드립니다.",
-    images: ["/og-image.jpg"],
-    creator: "@mojoday",
+    title: siteTitle,
+    description: company.description,
+    images: ["/logo.png"],
   },
   robots: {
     index: true,
@@ -74,16 +72,44 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      "max-video-preview": -1,
       "max-image-preview": "large",
       "max-snippet": -1,
     },
   },
   verification: {
     google: "FNqLbmaC6cPqT60GMc69YeWoyb_qKJucpAtdDYQM-_w",
-    // yandex: "your-yandex-verification-code",
-    // bing: "your-bing-verification-code",
   },
+};
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: company.nameEn,
+  alternateName: company.name,
+  url: company.website,
+  logo: `${company.website}/logo.png`,
+  description: company.description,
+  founder: { "@type": "Person", name: company.representative.nameEn },
+  foundingDate: company.founded,
+  email: company.email,
+  telephone: company.phone.tel,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: company.address.streetEn,
+    addressLocality: company.address.localityEn,
+    addressRegion: company.address.regionEn,
+    postalCode: company.address.postalCode,
+    addressCountry: "KR",
+  },
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "customer support",
+    telephone: company.phone.tel,
+    email: company.email,
+    areaServed: "KR",
+    availableLanguage: ["Korean", "English"],
+  },
+  knowsAbout: [company.industry.majorEn, company.industry.subEn],
 };
 
 export default function RootLayout({
@@ -107,22 +133,24 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <script
-          src="https://www.googletagmanager.com/gtag/js?id=G-Z3NNQBGBSD"
-          async
-        />
-        <script
-          id="google-analytics"
-          async
+          type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-Z3NNQBGBSD');
-        `,
+            __html: JSON.stringify(organizationJsonLd),
           }}
         />
         {children}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-Z3NNQBGBSD"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-Z3NNQBGBSD');
+          `}
+        </Script>
       </body>
     </html>
   );

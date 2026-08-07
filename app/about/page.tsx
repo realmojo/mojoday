@@ -1,132 +1,106 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { Button } from "@/components/ui/button";
+import { company, milestones, values } from "@/lib/company";
 
 export const metadata: Metadata = {
-  title: "About - Mojoday",
-  description:
-    "Mojoday는 여행 유튜브 영상을 AI로 분석해 나만의 여행 계획을 자동으로 만들어주는 서비스입니다.",
+  title: "회사 소개",
+  description: `${company.name}(${company.nameEn})는 웹페이지 디자인과 디지털 마케팅을 함께 제공하는 인터넷 정보 서비스 기업입니다. 대표 ${company.representative.name}, 서울 영등포구 소재.`,
   alternates: { canonical: "/about" },
 };
 
-const values = [
+const profile = [
+  { label: "상호", value: `${company.name} (${company.nameEn})` },
+  { label: "대표자", value: `${company.representative.name} (${company.representative.nameEn})` },
+  { label: "설립", value: `${company.founded}년` },
   {
-    emoji: "🎬",
-    title: "영상에서 계획으로",
-    desc: "좋아하는 유튜버의 여행 영상 URL 하나만 있으면 됩니다. AI가 영상 속 모든 정보를 분석해 완성된 여행 계획을 만들어드립니다.",
+    label: "업종",
+    value: `${company.industry.major} / ${company.industry.majorEn}`,
   },
   {
-    emoji: "🗺️",
-    title: "모든 정보를 한 곳에",
-    desc: "장소, 맛집, 숙소, 교통, 예산까지 영상에서 언급된 정보를 빠짐없이 추출해 정리합니다.",
+    label: "사업 분야",
+    value: `${company.industry.sub} / ${company.industry.subEn}`,
   },
   {
-    emoji: "✏️",
-    title: "나만의 계획으로",
-    desc: "자동 생성된 일정을 편집해 나만의 여행 계획으로 완성하세요. 날짜, 장소, 활동을 자유롭게 수정할 수 있습니다.",
+    label: "소재지",
+    value: `(${company.address.postalCode}) ${company.address.full}`,
   },
+  { label: "Address", value: company.address.fullEn },
+  { label: "대표 전화", value: company.phone.display },
+  { label: "이메일", value: company.email },
+  { label: "웹사이트", value: company.website },
 ];
 
 export default function AboutPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-background text-foreground">
+    <div className="flex min-h-screen flex-col">
       <SiteHeader />
+
       <main className="flex-1">
-        {/* Hero */}
-        <section className="py-20 md:py-28 text-center border-b">
-          <div className="container mx-auto px-4 md:px-6 max-w-3xl space-y-6">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 font-bold text-2xl tracking-tighter mb-4"
-            >
-              <Image
-                src="/icon.png"
-                alt="Mojoday"
-                width={36}
-                height={36}
-                className="rounded-lg"
-              />
-              <span>Mojoday</span>
-            </Link>
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight">
-              여행을 더 쉽게,
-              <br />더 즐겁게
-            </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Mojoday는 여행 유튜브 영상을 AI로 분석해
-              <br />
-              나만의 완벽한 여행 계획을 자동으로 만들어주는 서비스입니다.
-            </p>
+        {/* Header */}
+        <section className="border-b bg-muted/40">
+          <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
+            <div className="max-w-3xl">
+              <span className="text-sm font-medium text-muted-foreground">About</span>
+              <h1 className="mt-3 text-4xl font-bold tracking-tight md:text-5xl">
+                회사 소개
+              </h1>
+              <p className="mt-6 text-base leading-relaxed text-muted-foreground md:text-lg">
+                {company.description}
+              </p>
+            </div>
           </div>
         </section>
 
-        {/* 미션 */}
-        <section className="py-16 md:py-24">
-          <div className="container mx-auto px-4 md:px-6 max-w-4xl">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="space-y-4">
-                <span className="text-sm font-medium text-primary uppercase tracking-wider">
-                  Our Mission
-                </span>
-                <h2 className="text-3xl font-bold leading-tight">
-                  유튜버의 경험을
-                  <br />내 여행으로
+        {/* 대표 인사말 */}
+        <section className="border-b py-20 md:py-24">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr]">
+              <div>
+                <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
+                  대표 인사말
                 </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  수많은 여행 유튜버들이 직접 발로 뛰며 쌓은 노하우와 경험이
-                  영상 속에 담겨 있습니다. Mojoday는 그 소중한 정보를 AI 기술로
-                  추출해 누구나 쉽게 활용할 수 있는 여행 계획으로 변환합니다.
-                </p>
-                <p className="text-muted-foreground leading-relaxed">
-                  더 이상 여행 계획에 며칠씩 시간을 쏟지 않아도 됩니다. 원하는
-                  영상 URL 하나로 일정, 맛집, 숙소, 교통, 예산까지 한 번에
-                  완성하세요.
-                </p>
               </div>
-              <div className="bg-muted rounded-2xl p-8 text-center space-y-6">
-                <div className="text-5xl font-bold text-primary">1분</div>
-                <p className="text-muted-foreground">
-                  유튜브 URL 입력 후<br />
-                  여행 계획 완성까지
+              <div className="space-y-5 leading-relaxed text-muted-foreground">
+                <p>
+                  안녕하세요, {company.name} 대표 {company.representative.name}입니다.
                 </p>
-                <div className="h-px bg-border" />
-                <div className="grid grid-cols-2 gap-4 text-center">
-                  <div>
-                    <div className="text-2xl font-bold">33+</div>
-                    <div className="text-xs text-muted-foreground mt-1">
-                      분석 가능 항목
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold">100%</div>
-                    <div className="text-xs text-muted-foreground mt-1">
-                      편집 가능
-                    </div>
-                  </div>
-                </div>
+                <p>
+                  웹사이트는 많은 브랜드가 고객을 처음 만나는 자리입니다. 그런데 잘 만든 웹사이트가
+                  아무에게도 닿지 않거나, 사람은 모였는데 정작 화면이 그 기대를 받아내지 못하는
+                  경우를 자주 보았습니다. 모조데이는 그 간극을 좁히기 위해 시작했습니다.
+                </p>
+                <p>
+                  저희는 디자인과 개발, 그리고 마케팅을 따로 떼어 생각하지 않습니다. 어떤 검색어로
+                  들어올 사람인지 먼저 그려보고 화면을 설계하며, 공개한 뒤에는 실제 데이터를 보며
+                  계속 다듬습니다. 규모가 큰 프로젝트든 한 페이지짜리 소개 사이트든, 같은 기준으로
+                  임합니다.
+                </p>
+                <p>
+                  브랜드의 하루하루가 더 잘 보이도록, 오래 함께할 수 있는 파트너가 되겠습니다.
+                  감사합니다.
+                </p>
+                <p className="pt-2 font-medium text-foreground">
+                  {company.name} {company.representative.title} {company.representative.name}
+                </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 핵심 가치 */}
-        <section className="py-16 bg-muted/30 border-y">
-          <div className="container mx-auto px-4 md:px-6 max-w-5xl">
-            <h2 className="text-2xl font-bold text-center mb-12">
-              Mojoday가 하는 일
-            </h2>
-            <div className="grid md:grid-cols-3 gap-6">
-              {values.map(({ emoji, title, desc }) => (
-                <div
-                  key={title}
-                  className="bg-background rounded-2xl p-6 space-y-3 border"
-                >
-                  <span className="text-3xl">{emoji}</span>
-                  <h3 className="font-bold text-lg">{title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {desc}
+        {/* 가치 */}
+        <section className="border-b bg-muted/40 py-20 md:py-24">
+          <div className="container mx-auto px-4 md:px-6">
+            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">일하는 방식</h2>
+            <div className="mt-10 grid gap-6 md:grid-cols-3">
+              {values.map((value) => (
+                <div key={value.title} className="rounded-2xl bg-background p-7">
+                  <h3 className="text-lg font-semibold">{value.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                    {value.body}
                   </p>
                 </div>
               ))}
@@ -134,30 +108,62 @@ export default function AboutPage() {
           </div>
         </section>
 
+        {/* 연혁 */}
+        <section className="border-b py-20 md:py-24">
+          <div className="container mx-auto px-4 md:px-6">
+            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">연혁</h2>
+            <ol className="mt-10 space-y-0 border-l">
+              {milestones.map((milestone) => (
+                <li key={milestone.year} className="relative py-5 pl-8">
+                  <span
+                    aria-hidden
+                    className="absolute -left-[5px] top-7 h-2.5 w-2.5 rounded-full bg-foreground"
+                  />
+                  <div className="text-sm font-semibold">{milestone.year}</div>
+                  <p className="mt-1 text-sm text-muted-foreground">{milestone.body}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* 회사 개요 */}
+        <section className="border-b py-20 md:py-24">
+          <div className="container mx-auto px-4 md:px-6">
+            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">회사 개요</h2>
+            <dl className="mt-10 divide-y rounded-2xl border">
+              {profile.map(({ label, value }) => (
+                <div
+                  key={label}
+                  className="grid grid-cols-1 gap-1 px-6 py-4 sm:grid-cols-[10rem_1fr] sm:gap-4"
+                >
+                  <dt className="text-sm font-medium text-muted-foreground">{label}</dt>
+                  <dd className="text-sm break-words">{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
+
         {/* CTA */}
-        <section className="py-16 text-center">
-          <div className="container mx-auto px-4 md:px-6 space-y-6">
-            <h2 className="text-2xl font-bold">지금 바로 시작해보세요</h2>
-            <p className="text-muted-foreground">
-              좋아하는 여행 유튜버의 영상 URL을 붙여넣어보세요.
+        <section className="py-20 md:py-24">
+          <div className="container mx-auto px-4 text-center md:px-6">
+            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
+              모조데이와 이야기 나눠보세요
+            </h2>
+            <p className="mt-4 text-muted-foreground">
+              프로젝트 문의부터 간단한 상담까지 언제든 환영합니다.
             </p>
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-medium px-8 py-3 rounded-xl hover:bg-primary/90 transition-colors"
-            >
-              여행 계획 만들기 →
-            </Link>
-            <div className="pt-4">
-              <Link
-                href="/contact"
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                궁금한 점이 있으신가요? 문의하기 →
+            <Button asChild size="lg" className="mt-8">
+              <Link href="/contact">
+                문의하기
+                <ArrowRight className="ml-1 h-4 w-4" />
               </Link>
-            </div>
+            </Button>
           </div>
         </section>
       </main>
+
       <SiteFooter />
     </div>
   );

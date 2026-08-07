@@ -118,5 +118,8 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* 한글은 단어 단위로 줄바꿈되도록 (어절 중간에서 끊기지 않게) */
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
 }

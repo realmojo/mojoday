@@ -1,182 +1,211 @@
-import type { Metadata } from "next";
-import Image from "next/image";
-
+import Link from "next/link";
+import { ArrowRight, Building2, Mail, MapPin, Phone } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { TravelPlanForm } from "@/components/travel-plan-form";
-import { createServerClient } from "@/lib/supabase";
-import { PlanCard, type PlanCardData } from "@/components/plan-card";
+import { Button } from "@/components/ui/button";
+import { company, services, values } from "@/lib/company";
 
-export const dynamic = "force-dynamic";
-
-export const metadata: Metadata = {
-  title: "AI 여행 플래너 - 유튜브로 완성하는 나만의 여행",
-  description:
-    "좋아하는 여행 유튜버의 영상 URL 하나로 일정, 맛집, 숙소, 교통까지 완벽한 여행 계획을 자동으로 만들어드립니다.",
-  openGraph: {
-    title: "AI 여행 플래너 - 유튜브로 완성하는 나만의 여행",
-    description:
-      "여행 유튜브를 분석해서 나만의 여행 계획을 만들어주는 AI 서비스",
-    url: "/",
-  },
-  alternates: { canonical: "/" },
-};
-
-const heroFeatures = [
-  { emoji: "🎬", text: "유튜브 영상 URL 하나로 여행 계획 자동 완성" },
-  { emoji: "🗺️", text: "장소·맛집·숙소·교통 자동 추출 및 정리" },
-  { emoji: "📅", text: "날짜별 상세 일정표 자동 생성" },
-  { emoji: "💰", text: "여행 예산 자동 계산" },
-  { emoji: "✏️", text: "편집 가능한 나만의 여행 플래너" },
+const overview = [
+  { label: "상호", value: `${company.name} (${company.nameEn})` },
+  { label: "대표자", value: company.representative.name },
+  { label: "설립", value: `${company.founded}년` },
+  { label: "업종", value: company.industry.major },
+  { label: "사업 분야", value: company.industry.sub },
+  { label: "소재지", value: `${company.address.full} (${company.address.postalCode})` },
+  { label: "대표 전화", value: company.phone.display },
+  { label: "이메일", value: company.email },
 ];
 
-const avatarColors = ["#f97316", "#06b6d4", "#8b5cf6", "#ec4899", "#10b981"];
-const avatarLetters = ["K", "J", "M", "S", "P"];
-
-async function getPlans(): Promise<PlanCardData[]> {
-  try {
-    const db = createServerClient();
-    const { data } = await db
-      .from("plans")
-      .select(
-        "video_id, title, thumbnail_url, channel_name, summary, country, regions, tags, trip_type, travel_schedule",
-      )
-      .order("created_at", { ascending: false });
-    return (data as PlanCardData[]) ?? [];
-  } catch {
-    return [];
-  }
-}
-
-function getCountries(plans: PlanCardData[]) {
-  const countryMap = new Map<string, number>();
-  for (const p of plans) {
-    if (p.country)
-      countryMap.set(p.country, (countryMap.get(p.country) ?? 0) + 1);
-  }
-  return [...countryMap.entries()].map(([name, count]) => ({ name, count }));
-}
-
-export default async function Home() {
-  const plans = await getPlans();
-  const countries = getCountries(plans);
-
-  // 데모 썸네일: 태국 우돈타니 영상
-  const demoThumb = `https://img.youtube.com/vi/cBJ9oLoPcyE/hqdefault.jpg`;
-
+export default function HomePage() {
   return (
-    <div className="flex min-h-screen flex-col bg-background text-foreground">
+    <div className="flex min-h-screen flex-col">
       <SiteHeader />
 
       <main className="flex-1">
-        {/* Hero Section */}
-        <section className="relative min-h-[calc(100vh-4rem)] flex items-center py-16 overflow-hidden">
-          {/* Image background */}
-          <Image
-            src="/hero-bg.png"
-            alt="Travel background"
-            fill
-            priority
-            className="object-cover"
+        {/* Hero */}
+        <section className="relative overflow-hidden border-b">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(60rem_40rem_at_50%_-20%,var(--color-accent),transparent)]"
           />
-          {/* Dark overlay for readability */}
-          <div className="absolute inset-0 bg-black/60" />
-
-          {/* Atmospheric blurs */}
-          <div className="absolute top-1/3 left-1/5 w-96 h-96 bg-emerald-900/30 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-1/4 right-1/5 w-96 h-96 bg-sky-900/30 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="relative container mx-auto px-4 md:px-6">
-            <div className="flex flex-col items-center text-center max-w-2xl mx-auto">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 border border-white/20 rounded-full px-4 py-1.5 text-sm text-white/80 bg-white/5 backdrop-blur-sm">
-                <span className="text-yellow-400 tracking-widest">★★★★★</span>
-                <span>AI 여행 플래너 · Mojoday</span>
+          <div className="container relative mx-auto px-4 py-24 md:px-6 md:py-32">
+            <div className="mx-auto max-w-3xl text-center">
+              <span className="inline-flex items-center rounded-full border bg-background px-3 py-1 text-xs font-medium text-muted-foreground">
+                Internet / Information Services · Seoul, Korea
+              </span>
+              <h1 className="mt-6 text-4xl font-bold leading-tight tracking-tight md:text-6xl">
+                {company.tagline}
+              </h1>
+              <p className="mt-6 text-base leading-relaxed text-muted-foreground md:text-lg">
+                {company.description}
+              </p>
+              <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <Button asChild size="lg">
+                  <Link href="/contact">
+                    프로젝트 문의하기
+                    <ArrowRight className="ml-1 h-4 w-4" />
+                  </Link>
+                </Button>
+                <Button asChild size="lg" variant="outline">
+                  <Link href="/about">회사 소개 보기</Link>
+                </Button>
               </div>
-
-              {/* Heading */}
-              <div className="space-y-4 mt-8">
-                <h1 className="text-5xl md:text-6xl font-bold leading-tight tracking-tight text-white">
-                  ✈️ 여행 계획
-                  <br />
-                  <span className="text-emerald-400">AI가</span> 해드립니다
-                </h1>
-                <p className="text-xl text-white/70 leading-relaxed">
-                  좋아하는 여행 유튜버의 영상 URL 하나로
-                  <br />
-                  일정, 맛집, 숙소, 교통까지 완벽하게
-                </p>
-              </div>
-
-              {/* Avatars + count */}
-              <div className="flex items-center gap-3 mt-8">
-                <div className="flex -space-x-2">
-                  {avatarLetters.map((letter, i) => (
-                    <div
-                      key={i}
-                      className="w-9 h-9 rounded-full border-2 border-slate-800 flex items-center justify-center text-xs font-bold text-white"
-                      style={{ backgroundColor: avatarColors[i] }}
-                    >
-                      {letter}
-                    </div>
-                  ))}
-                </div>
-                <span className="text-sm text-white/60">
-                  1,200+ 여행자가 사용 중
-                </span>
-              </div>
-
-              {/* Feature List */}
-              <ul className="flex flex-wrap justify-center gap-x-6 gap-y-3 mt-8">
-                {heroFeatures.map(({ emoji, text }, i) => (
-                  <li
-                    key={i}
-                    className="flex items-center gap-1.5 text-white/85"
-                  >
-                    <span className="text-xl leading-none">{emoji}</span>
-                    <span className="text-sm">{text}</span>
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
         </section>
 
-        {/* 여행 계획 그리드 */}
-        {plans.length > 0 && (
-          <section id="plans" className="py-12">
-            <div className="container mx-auto px-4 md:px-6">
-              {/* 상단 필터 바 */}
-              <div className="flex items-center gap-2 mb-6 flex-wrap">
-                <span className="bg-muted text-muted-foreground text-xs font-medium px-3 py-1.5 rounded-lg">
-                  Popular
-                </span>
-                <a
-                  href="#plans"
-                  className="text-sm font-semibold border-b-2 border-foreground pb-0.5 mr-2"
+        {/* Services */}
+        <section id="services" className="border-b py-20 md:py-28">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="mx-auto max-w-2xl text-center">
+              <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
+                무엇을 하는 회사인가요
+              </h2>
+              <p className="mt-4 text-muted-foreground">
+                웹페이지 디자인과 마케팅을 하나의 흐름으로 연결해, 만드는 일과 알리는 일을 함께
+                책임집니다.
+              </p>
+            </div>
+
+            <div className="mt-14 grid gap-6 md:grid-cols-3">
+              {services.map((service) => (
+                <div
+                  key={service.id}
+                  className="flex flex-col rounded-2xl border bg-card p-7 transition-shadow hover:shadow-md"
                 >
-                  전체
-                </a>
-                {countries.map(({ name }) => (
-                  <a
-                    key={name}
-                    href={`/country/${encodeURIComponent(name)}`}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    {name}
-                  </a>
-                ))}
+                  <h3 className="text-lg font-semibold">{service.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                    {service.summary}
+                  </p>
+                  <ul className="mt-6 space-y-2 border-t pt-6 text-sm text-muted-foreground">
+                    {service.items.map((item) => (
+                      <li key={item} className="flex gap-2">
+                        <span aria-hidden className="text-foreground">
+                          ·
+                        </span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-10 text-center">
+              <Link
+                href="/services"
+                className="inline-flex items-center gap-1 text-sm font-medium hover:underline"
+              >
+                서비스 자세히 보기
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Values */}
+        <section className="border-b bg-muted/40 py-20 md:py-28">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="mx-auto max-w-2xl text-center">
+              <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
+                일하는 방식
+              </h2>
+              <p className="mt-4 text-muted-foreground">
+                모조데이가 프로젝트를 대하는 세 가지 기준입니다.
+              </p>
+            </div>
+
+            <div className="mt-14 grid gap-6 md:grid-cols-3">
+              {values.map((value, index) => (
+                <div key={value.title} className="rounded-2xl bg-background p-7">
+                  <span className="text-sm font-semibold text-muted-foreground">
+                    0{index + 1}
+                  </span>
+                  <h3 className="mt-3 text-lg font-semibold">{value.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                    {value.body}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Company overview */}
+        <section id="company" className="border-b py-20 md:py-28">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr]">
+              <div>
+                <span className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                  <Building2 className="h-4 w-4" />
+                  Company
+                </span>
+                <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-4xl">
+                  회사 개요
+                </h2>
+                <p className="mt-4 leading-relaxed text-muted-foreground">
+                  모조데이는 서울 영등포구에 자리한 인터넷 정보 서비스 기업입니다. 웹페이지
+                  디자인과 마케팅 서비스를 주된 사업으로 하며, 자체 웹 서비스도 직접 기획하고
+                  운영하고 있습니다.
+                </p>
               </div>
 
-              {/* 카드 그리드 */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                {plans.map((plan, i) => (
-                  <PlanCard key={plan.video_id} plan={plan} rank={i + 1} />
+              <dl className="divide-y rounded-2xl border">
+                {overview.map(({ label, value }) => (
+                  <div
+                    key={label}
+                    className="grid grid-cols-1 gap-1 px-6 py-4 sm:grid-cols-[8rem_1fr] sm:gap-4"
+                  >
+                    <dt className="text-sm font-medium text-muted-foreground">{label}</dt>
+                    <dd className="text-sm">{value}</dd>
+                  </div>
                 ))}
-              </div>
+              </dl>
             </div>
-          </section>
-        )}
+          </div>
+        </section>
+
+        {/* Contact CTA */}
+        <section className="py-20 md:py-28">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="mx-auto max-w-3xl text-center">
+              <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
+                함께할 프로젝트가 있으신가요
+              </h2>
+              <p className="mt-4 leading-relaxed text-muted-foreground">
+                간단한 아이디어 단계여도 좋습니다. 어떤 것을 만들고 싶은지 알려주시면 방향을 함께
+                정리해 드립니다.
+              </p>
+            </div>
+
+            <div className="mx-auto mt-12 grid max-w-3xl gap-4 sm:grid-cols-3">
+              <a
+                href={`tel:${company.phone.tel}`}
+                className="flex flex-col items-center gap-2 rounded-2xl border p-6 text-center transition-colors hover:bg-accent"
+              >
+                <Phone className="h-5 w-5 text-muted-foreground" />
+                <span className="text-xs text-muted-foreground">전화</span>
+                <span className="text-sm font-medium">{company.phone.display}</span>
+              </a>
+              <a
+                href={`mailto:${company.email}`}
+                className="flex flex-col items-center gap-2 rounded-2xl border p-6 text-center transition-colors hover:bg-accent"
+              >
+                <Mail className="h-5 w-5 text-muted-foreground" />
+                <span className="text-xs text-muted-foreground">이메일</span>
+                <span className="text-sm font-medium">{company.email}</span>
+              </a>
+              <Link
+                href="/contact"
+                className="flex flex-col items-center gap-2 rounded-2xl border p-6 text-center transition-colors hover:bg-accent"
+              >
+                <MapPin className="h-5 w-5 text-muted-foreground" />
+                <span className="text-xs text-muted-foreground">오시는 길</span>
+                <span className="text-sm font-medium">{company.address.locality}</span>
+              </Link>
+            </div>
+          </div>
+        </section>
       </main>
 
       <SiteFooter />

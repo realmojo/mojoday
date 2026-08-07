@@ -1,9 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
-import { AuthButton } from "@/components/auth-button";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { company } from "@/lib/company";
+
+const navItems = [
+  { href: "/about", label: "회사 소개" },
+  { href: "/services", label: "서비스" },
+  { href: "/contact", label: "문의하기" },
+];
 
 export function SiteHeader() {
   return (
@@ -11,44 +17,36 @@ export function SiteHeader() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link
           href="/"
-          className="flex items-center gap-2 font-bold text-xl tracking-tighter"
+          className="flex items-center gap-2 text-xl font-bold tracking-tighter"
         >
           <Image
             src="/icon.png"
-            alt="Mojoday Logo"
+            alt={`${company.nameEn} 로고`}
             width={28}
             height={28}
             className="rounded-md"
           />
-          <span>Mojoday</span>
+          <span>{company.nameEn}</span>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-          <Link
-            href="/#destinations"
-            className="transition-colors hover:text-primary"
-          >
-            인기 여행지
-          </Link>
-          <Link
-            href="/#how-it-works"
-            className="transition-colors hover:text-primary"
-          >
-            사용 방법
-          </Link>
-          <Link
-            href="/#features"
-            className="transition-colors hover:text-primary"
-          >
-            기능
-          </Link>
-          <AuthButton />
+        <nav className="hidden items-center gap-8 text-sm font-medium md:flex">
+          {navItems.map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {label}
+            </Link>
+          ))}
+          <Button asChild size="sm">
+            <a href={`mailto:${company.email}`}>프로젝트 문의</a>
+          </Button>
         </nav>
 
         {/* Mobile Navigation */}
-        <div className="flex items-center gap-2 md:hidden">
-          <AuthButton />
+        <div className="md:hidden">
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -57,27 +55,19 @@ export function SiteHeader() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right">
-              <nav className="flex flex-col gap-4 mt-8">
-                <Link
-                  href="/#destinations"
-                  className="text-lg font-medium hover:text-primary"
-                >
-                  인기 여행지
-                </Link>
-                <Link
-                  href="/#how-it-works"
-                  className="text-lg font-medium hover:text-primary"
-                >
-                  사용 방법
-                </Link>
-                <Link
-                  href="/#features"
-                  className="text-lg font-medium hover:text-primary"
-                >
-                  기능
-                </Link>
-                <Button asChild className="w-full mt-4">
-                  <Link href="/login">로그인</Link>
+              <SheetTitle className="sr-only">사이트 메뉴</SheetTitle>
+              <nav className="mt-8 flex flex-col gap-4 px-4">
+                {navItems.map(({ href, label }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    className="text-lg font-medium hover:text-primary"
+                  >
+                    {label}
+                  </Link>
+                ))}
+                <Button asChild className="mt-4 w-full">
+                  <a href={`mailto:${company.email}`}>프로젝트 문의</a>
                 </Button>
               </nav>
             </SheetContent>

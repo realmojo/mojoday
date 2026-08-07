@@ -1,60 +1,100 @@
 import Link from "next/link";
 import Image from "next/image";
+import { company } from "@/lib/company";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t bg-muted/50 py-12">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="grid md:grid-cols-4 gap-8 mb-8">
+    <footer className="border-t bg-muted/40">
+      <div className="container mx-auto px-4 py-12 md:px-6">
+        <div className="mb-10 grid gap-10 md:grid-cols-3">
           {/* 브랜드 */}
           <div className="space-y-4">
-            <Link href="/" className="flex items-center gap-2 font-bold text-xl tracking-tighter">
-              <Image src="/icon.png" alt="Mojoday" width={28} height={28} className="rounded-md" />
-              <span>Mojoday</span>
+            <Link
+              href="/"
+              className="flex items-center gap-2 text-xl font-bold tracking-tighter"
+            >
+              <Image
+                src="/icon.png"
+                alt={`${company.nameEn} 로고`}
+                width={28}
+                height={28}
+                className="rounded-md"
+              />
+              <span>{company.nameEn}</span>
             </Link>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              유튜브 영상 하나로 완성하는<br />나만의 AI 여행 계획
+            <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
+              {company.tagline}
             </p>
           </div>
 
-          {/* 여행지 */}
+          {/* 바로가기 */}
           <div>
-            <h4 className="font-semibold mb-4 text-sm">여행지</h4>
+            <h4 className="mb-4 text-sm font-semibold">바로가기</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><Link href="/#plans" className="hover:text-primary transition-colors">인기 여행 계획</Link></li>
-              <li><Link href="/country/%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD%20(South%20Korea)" className="hover:text-primary transition-colors">국내 여행</Link></li>
-              <li><Link href="/#plans" className="hover:text-primary transition-colors">해외 여행</Link></li>
+              <li>
+                <Link href="/about" className="transition-colors hover:text-foreground">
+                  회사 소개
+                </Link>
+              </li>
+              <li>
+                <Link href="/services" className="transition-colors hover:text-foreground">
+                  서비스
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="transition-colors hover:text-foreground">
+                  문의하기
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms" className="transition-colors hover:text-foreground">
+                  이용약관
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacy" className="transition-colors hover:text-foreground">
+                  개인정보처리방침
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* 서비스 */}
+          {/* 회사 정보 */}
           <div>
-            <h4 className="font-semibold mb-4 text-sm">서비스</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><Link href="/about" className="hover:text-primary transition-colors">Mojoday 소개</Link></li>
-              <li><Link href="/login" className="hover:text-primary transition-colors">로그인</Link></li>
-            </ul>
-          </div>
-
-          {/* 정보 */}
-          <div>
-            <h4 className="font-semibold mb-4 text-sm">정보</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><Link href="/about" className="hover:text-primary transition-colors">About</Link></li>
-              <li><Link href="/contact" className="hover:text-primary transition-colors">Contact</Link></li>
-              <li><Link href="/terms" className="hover:text-primary transition-colors">이용약관</Link></li>
-              <li><Link href="/privacy" className="hover:text-primary transition-colors">개인정보처리방침</Link></li>
+            <h4 className="mb-4 text-sm font-semibold">회사 정보</h4>
+            <ul className="space-y-2 text-sm leading-relaxed text-muted-foreground">
+              <li>상호 : {company.name} ({company.nameEn})</li>
+              <li>대표 : {company.representative.name}</li>
+              <li>
+                주소 : {company.address.full} ({company.address.postalCode})
+              </li>
+              <li>
+                전화 :{" "}
+                <a
+                  href={`tel:${company.phone.tel}`}
+                  className="transition-colors hover:text-foreground"
+                >
+                  {company.phone.display}
+                </a>
+              </li>
+              <li>
+                이메일 :{" "}
+                <a
+                  href={`mailto:${company.email}`}
+                  className="transition-colors hover:text-foreground"
+                >
+                  {company.email}
+                </a>
+              </li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t pt-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
-          <span>© {new Date().getFullYear()} Mojoday. All rights reserved.</span>
-          <div className="flex items-center gap-4">
-            <Link href="/terms" className="hover:text-primary transition-colors">이용약관</Link>
-            <Link href="/privacy" className="hover:text-primary transition-colors">개인정보처리방침</Link>
-            <Link href="/contact" className="hover:text-primary transition-colors">문의하기</Link>
-          </div>
+        <div className="flex flex-col items-center justify-between gap-3 border-t pt-8 text-xs text-muted-foreground sm:flex-row">
+          <span>
+            © {new Date().getFullYear()} {company.nameEn}. All rights reserved.
+          </span>
+          <span>{company.address.fullEn}</span>
         </div>
       </div>
     </footer>

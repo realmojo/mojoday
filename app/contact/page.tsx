@@ -1,154 +1,177 @@
-"use client";
-
-import { useState } from "react";
-import Link from "next/link";
+import type { Metadata } from "next";
+import { Clock, Globe, Mail, MapPin, Phone } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { Button } from "@/components/ui/button";
+import { company } from "@/lib/company";
+
+export const metadata: Metadata = {
+  title: "문의하기",
+  description: `${company.name}(${company.nameEn}) 연락처 안내. 전화 ${company.phone.display}, 이메일 ${company.email}, 주소 ${company.address.full}.`,
+  alternates: { canonical: "/contact" },
+};
+
+const mapQuery = encodeURIComponent(company.address.fullEn);
+
+const channels = [
+  {
+    icon: Phone,
+    label: "전화",
+    value: company.phone.display,
+    href: `tel:${company.phone.tel}`,
+  },
+  {
+    icon: Mail,
+    label: "이메일",
+    value: company.email,
+    href: `mailto:${company.email}`,
+  },
+  {
+    icon: Globe,
+    label: "웹사이트",
+    value: company.website.replace("https://", ""),
+    href: company.website,
+  },
+];
 
 const faqs = [
   {
-    q: "어떤 유튜브 영상이든 분석할 수 있나요?",
-    a: "자막이 있는 여행 관련 유튜브 영상이라면 대부분 분석 가능합니다. 자막이 없는 영상은 AI가 영상을 직접 분석합니다.",
+    q: "어떤 규모의 프로젝트까지 가능한가요?",
+    a: "한 페이지짜리 소개 사이트부터 여러 페이지로 구성된 브랜드 사이트, 운영이 필요한 웹 서비스까지 진행합니다. 문의 시 원하는 범위를 알려주시면 적정한 구성으로 제안드립니다.",
   },
   {
-    q: "분석하는 데 얼마나 걸리나요?",
-    a: "영상 길이에 따라 다르지만 보통 30초~2분 내외로 완성됩니다.",
+    q: "제작 기간은 얼마나 걸리나요?",
+    a: "페이지 수와 준비된 자료에 따라 다르지만, 소개 사이트 기준으로 보통 2~4주 정도 소요됩니다. 상담 단계에서 정확한 일정을 안내드립니다.",
   },
   {
-    q: "생성된 여행 계획을 수정할 수 있나요?",
-    a: "네, 생성된 계획의 모든 항목(날짜, 장소, 활동 등)을 자유롭게 편집할 수 있습니다.",
+    q: "오픈 이후 운영도 맡길 수 있나요?",
+    a: "네. 콘텐츠 업데이트, 검색 최적화, 광고 운영까지 이어서 진행할 수 있습니다. 필요한 항목만 선택해 요청하셔도 됩니다.",
   },
   {
-    q: "무료로 사용할 수 있나요?",
-    a: "현재 베타 서비스로 무료로 제공하고 있습니다.",
+    q: "문의하면 언제 답변을 받을 수 있나요?",
+    a: `${company.businessHours} 기준으로 영업일 1~2일 이내에 회신드립니다.`,
   },
 ];
 
 export default function ContactPage() {
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [sent, setSent] = useState(false);
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  }
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    // 실제 전송은 이메일 서비스(Resend, EmailJS 등) 연동 필요
-    setSent(true);
-  }
-
   return (
-    <div className="flex min-h-screen flex-col bg-background text-foreground">
+    <div className="flex min-h-screen flex-col">
       <SiteHeader />
+
       <main className="flex-1">
-        {/* Hero */}
-        <section className="py-16 text-center border-b">
-          <div className="container mx-auto px-4 md:px-6 max-w-2xl space-y-4">
-            <h1 className="text-4xl font-bold tracking-tight">Contact</h1>
-            <p className="text-muted-foreground text-lg">
-              궁금한 점이나 건의사항이 있으시면 언제든지 연락주세요.
-            </p>
+        {/* Header */}
+        <section className="border-b bg-muted/40">
+          <div className="container mx-auto px-4 py-16 md:px-6 md:py-24">
+            <div className="max-w-3xl">
+              <span className="text-sm font-medium text-muted-foreground">Contact</span>
+              <h1 className="mt-3 text-4xl font-bold tracking-tight md:text-5xl">문의하기</h1>
+              <p className="mt-6 text-base leading-relaxed text-muted-foreground md:text-lg">
+                프로젝트 문의, 견적 요청, 제휴 제안 모두 환영합니다. 아래 연락처로 편하게
+                연락주세요.
+              </p>
+            </div>
           </div>
         </section>
 
-        <section className="py-16">
-          <div className="container mx-auto px-4 md:px-6 max-w-5xl">
-            <div className="grid md:grid-cols-2 gap-12">
-              {/* 문의 폼 */}
-              <div className="space-y-6">
-                <h2 className="text-xl font-bold">문의하기</h2>
+        {/* 연락처 */}
+        <section className="border-b py-16 md:py-20">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="grid gap-4 sm:grid-cols-3">
+              {channels.map(({ icon: Icon, label, value, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  className="flex flex-col gap-2 rounded-2xl border p-6 transition-colors hover:bg-accent"
+                  {...(href.startsWith("http")
+                    ? { target: "_blank", rel: "noreferrer" }
+                    : {})}
+                >
+                  <Icon className="h-5 w-5 text-muted-foreground" />
+                  <span className="text-xs text-muted-foreground">{label}</span>
+                  <span className="text-sm font-medium break-all">{value}</span>
+                </a>
+              ))}
+            </div>
 
-                {sent ? (
-                  <div className="rounded-2xl border bg-muted/30 p-8 text-center space-y-3">
-                    <span className="text-4xl">✅</span>
-                    <h3 className="font-bold text-lg">문의가 접수되었습니다</h3>
+            <div className="mt-10 rounded-2xl border p-8">
+              <h2 className="text-lg font-semibold">이메일로 문의하기</h2>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                아래 내용을 함께 보내주시면 더 정확한 답변을 드릴 수 있습니다.
+              </p>
+              <ul className="mt-4 space-y-1.5 text-sm text-muted-foreground">
+                <li>· 회사 또는 브랜드 소개</li>
+                <li>· 필요한 작업(웹사이트 제작 / 리뉴얼 / 마케팅 등)</li>
+                <li>· 희망 일정과 예산 범위</li>
+                <li>· 참고할 만한 사이트나 자료</li>
+              </ul>
+              <Button asChild className="mt-6">
+                <a href={`mailto:${company.email}?subject=${encodeURIComponent("[프로젝트 문의] ")}`}>
+                  {company.email}로 메일 보내기
+                </a>
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* 오시는 길 */}
+        <section className="border-b bg-muted/40 py-16 md:py-20">
+          <div className="container mx-auto px-4 md:px-6">
+            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">오시는 길</h2>
+            <div className="mt-8 grid gap-6 md:grid-cols-2">
+              <div className="rounded-2xl bg-background p-7">
+                <div className="flex items-start gap-3">
+                  <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-muted-foreground" />
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium">주소</p>
                     <p className="text-sm text-muted-foreground">
-                      빠른 시일 내에 이메일로 답변드리겠습니다.
+                      ({company.address.postalCode}) {company.address.full}
                     </p>
-                    <button
-                      onClick={() => { setSent(false); setForm({ name: "", email: "", message: "" }); }}
-                      className="text-sm text-primary hover:underline"
-                    >
-                      다시 문의하기
-                    </button>
+                    <p className="text-sm text-muted-foreground">{company.address.fullEn}</p>
                   </div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="space-y-1.5">
-                      <label className="text-sm font-medium">이름</label>
-                      <input
-                        name="name"
-                        value={form.name}
-                        onChange={handleChange}
-                        required
-                        placeholder="홍길동"
-                        className="w-full rounded-xl border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                      />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="text-sm font-medium">이메일</label>
-                      <input
-                        name="email"
-                        type="email"
-                        value={form.email}
-                        onChange={handleChange}
-                        required
-                        placeholder="hello@example.com"
-                        className="w-full rounded-xl border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                      />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="text-sm font-medium">문의 내용</label>
-                      <textarea
-                        name="message"
-                        value={form.message}
-                        onChange={handleChange}
-                        required
-                        rows={5}
-                        placeholder="문의 내용을 자유롭게 작성해주세요."
-                        className="w-full rounded-xl border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none"
-                      />
-                    </div>
-                    <button
-                      type="submit"
-                      className="w-full bg-primary text-primary-foreground font-medium py-3 rounded-xl hover:bg-primary/90 transition-colors"
-                    >
-                      문의 보내기
-                    </button>
-                  </form>
-                )}
-
-                <p className="text-xs text-muted-foreground">
-                  또는 직접 이메일로 연락주세요:{" "}
-                  <a href="mailto:hello@mojoday.app" className="text-primary hover:underline">
-                    hello@mojoday.app
+                </div>
+                <Button asChild variant="outline" size="sm" className="mt-6">
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    지도에서 보기
                   </a>
-                </p>
+                </Button>
               </div>
 
-              {/* FAQ */}
-              <div className="space-y-6">
-                <h2 className="text-xl font-bold">자주 묻는 질문</h2>
-                <div className="space-y-4">
-                  {faqs.map(({ q, a }) => (
-                    <div key={q} className="rounded-xl border p-5 space-y-2">
-                      <h3 className="font-medium text-sm">{q}</h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{a}</p>
-                    </div>
-                  ))}
-                </div>
-                <div className="rounded-xl bg-muted/50 p-5 space-y-2">
-                  <p className="text-sm font-medium">더 많은 도움이 필요하신가요?</p>
-                  <Link href="/about" className="text-sm text-primary hover:underline">
-                    Mojoday 소개 보기 →
-                  </Link>
+              <div className="rounded-2xl bg-background p-7">
+                <div className="flex items-start gap-3">
+                  <Clock className="mt-0.5 h-5 w-5 shrink-0 text-muted-foreground" />
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium">운영 시간</p>
+                    <p className="text-sm text-muted-foreground">{company.businessHours}</p>
+                    <p className="text-sm text-muted-foreground">
+                      운영 시간 외 문의는 이메일로 남겨주시면 순차적으로 회신드립니다.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
+
+        {/* FAQ */}
+        <section className="py-16 md:py-20">
+          <div className="container mx-auto px-4 md:px-6">
+            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">자주 묻는 질문</h2>
+            <div className="mt-8 grid gap-4 md:grid-cols-2">
+              {faqs.map(({ q, a }) => (
+                <div key={q} className="rounded-2xl border p-6">
+                  <h3 className="font-semibold">{q}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{a}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
       </main>
+
       <SiteFooter />
     </div>
   );
